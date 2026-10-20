@@ -2,9 +2,9 @@
 
 printf "\033[1m\033[38;2;255;100;68mWelcome to the Abraxo installer!\n\n\033[0m"
 
-# ===========================
-# ==== Installing uv ========
-# ===========================
+# ========================
+# ==== Installing uv =====
+# ========================
 
 # Check if uv is installed
 if ! command -v uv > /dev/null 2>&1; then
@@ -23,6 +23,19 @@ if ! command -v uv > /dev/null 2>&1; then
 fi
 
 echo "* uv is installed!"
+
+
+# ==============================
+# ==== Downloading .py file ====
+# ==============================
+
+# Create ~/.local/share/abraxo if doesnt exist
+mkdir -p ~/.local/share/abraxo
+
+# Download the file and save it to file
+curl -sS https://raw.githubusercontent.com/TaXi0k/Abraxo/refs/heads/master/abraxo.py > ~/.local/share/abraxo/abraxo.py
+
+printf "* Succesfully downloaded abraxo.py\n"
 
 
 # ===============================
@@ -48,14 +61,26 @@ After=network.target
 
 [Service]
 Type=simple
-User=$USER
 WorkingDirectory=$HOME/.local/share/abraxo
 ExecStart=$UV_PATH run $HOME/.local/share/abraxo/abraxo.py
 Restart=on-failure
 RestartSec=5s
 
+# Environment=MD_CODE=[true/false]
+# Environment=DOWNLOADS_DIRECTORY=[/example/path/to/downloads/directory]
+
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 EOF
 
-printf "* Generated systemd service file succesfully!"
+printf "* Generated systemd service file succesfully!\n"
+
+# ==============================
+# ==== Starting the service ====
+# ==============================
+
+systemctl --user daemon-reload
+
+systemctl --user enable --now abraxo.service
+
+printf "\n\033[32m✔ Abraxo successfully installed and started!\033[0m\n"

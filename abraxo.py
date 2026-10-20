@@ -427,12 +427,6 @@ def main():
     observer = Observer()
     observer.schedule(event_handler, downloads_dir, recursive=False)
     observer.start()
-    
-    input()
-    
-    print(f"{BOLD}Stopping Abraxo...{RESET}")
-    
-    observer.stop()
 
 # ==================================================
 
