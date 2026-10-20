@@ -2,6 +2,18 @@
 
 printf "\033[1m\033[38;2;255;100;68mWelcome to the Abraxo installer!\n\n\033[0m"
 
+
+# =============================
+# ==== Removing leftovers =====
+# =============================
+
+systemctl --user stop abraxo 2>/dev/null || true
+systemctl --user disable abraxo 2>/dev/null || true
+rm -f ~/.local/share/abraxo/abraxo.py
+rm -f ~/.config/systemd/user/abraxo.service
+systemctl --user daemon-reload
+
+
 # ========================
 # ==== Installing uv =====
 # ========================

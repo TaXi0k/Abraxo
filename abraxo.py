@@ -427,6 +427,16 @@ def main():
     observer = Observer()
     observer.schedule(event_handler, downloads_dir, recursive=False)
     observer.start()
+    
+    import time
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        pass
+    
+    print(f"{BOLD}Stopping Abraxo...{RESET}")
+    observer.stop()
 
 # ==================================================
 
